@@ -13,7 +13,9 @@ int main() {
     P = &A; // valor de p = endereço de a
 
     printf("%d\n", A);
+
     *P = 10; // alterando o valor ednereçado à P e A
+    
     printf("%d\n", A);
 
     return 0;
