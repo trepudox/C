@@ -6,11 +6,11 @@ int main() {
     // * acessa o conteúdo da variável
     // declarar uma variável com * na frente significa que ela é um ponteiro
 
-    int A; // variável inteira a
-    int *P; // variável ponteiro p
+    int A; // variável inteira A
+    int *P; // variável ponteiro P
 
-    A = 5; // valor de  a = 5
-    P = &A; // valor de p = endereço de a
+    A = 5; // valor de A = 5
+    P = &A; // valor de P = endereço de A
 
     printf("endereco de A: %x\n", &A);
     printf("endereco de P: %x\n", P);
