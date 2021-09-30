@@ -8,7 +8,7 @@ int main() {
     printf("valor de A: %d\n", a);
     printf("endereco de A: %x\n\n", &a); // %x indica valor HEXADECIMAL
 
-    printf("valor guardado no endereco de P: %d\n", *p);
+    printf("valor guardado no endereco de P: %d\n", *p); // *p retorna o valor guardado no endereço
     printf("endereco de P: %x\n", p);
 
     return 0;
