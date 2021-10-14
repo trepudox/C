@@ -4,7 +4,6 @@
 
 typedef struct {
     int value;
-    int index;
     struct IntArray* nextAddress;
 } IntArray;
 
@@ -19,11 +18,6 @@ IntArray* insert(IntArray* array) {
 
     IntArray* newElement = (IntArray*) malloc(sizeof(IntArray));
 
-    if (array == NULL) {
-        newElement-> index = 0;
-    } else {
-        newElement->index = array->index + 1;
-    }
     newElement->value = *num;
     newElement->nextAddress = array;
     
@@ -32,60 +26,79 @@ IntArray* insert(IntArray* array) {
     return newElement;
 }
 
-IntArray* deleteByIndex(IntArray* array) {
-    IntArray* aux = array;
-    IntArray* deletedElement = start();
-    bool erased = false;
+IntArray* deleteByValue(IntArray* array) {
+    if (array == NULL) {
+        printf("\nA lista esta vazia, nao ha elementos para apagar.\n");
+        return array;
+    }
+    
+    int* num = (int*) malloc(sizeof(int));
+    printf("\nInsira o numero desejado: ");
+    scanf("%d", num);
 
-    int* desiredIndex = (int*) malloc(sizeof(int));
-    printf("\nInsira o indice que deseja apagar: ");
-    scanf("%d", desiredIndex);
+    IntArray* aux = array;
+
+    while (true) {
+        if (aux->value == *num) {
+            array = aux->nextAddress;
+            free(num);
+            free(aux);
+            return array;
+        }
+
+        IntArray* lastElement = aux;
+
+        aux = aux->nextAddress;
+        if (aux == NULL) {
+            break;
+        }
+
+        if (aux->value == *num) {
+            lastElement->nextAddress = aux->nextAddress;
+            free(num);
+            free(aux);
+            return array;
+        }
+    }
+    
+    printf("\nNao foi possivel encontrar o valor desejado.\n");
+    free(num);
+    return array;
+}
+
+void findByValue(IntArray* array) {
+    int* num = (int*) malloc(sizeof(int));
+    printf("\nInsira o numero desejado: ");
+    scanf("%d", num);
+
+    IntArray* aux = array;
 
     while (aux != NULL) {
-        if (aux->index == *desiredIndex) {
-            deletedElement = aux;
-            erased = true;
-            printf("antes do break");
-            break;
+        if (aux->value == *num) {
+            printf("\nVALUE\n");
+            printf("%d\n", aux->value);
+            free(num);
+            return;
         }
 
         aux = aux->nextAddress;
     }
 
-    if (erased == true) {
-
-        if (desiredIndex == 0) {
-            aux = deletedElement->nextAddress;
-            while (aux != NULL) {
-                aux->index -= 1;
-                aux = aux->nextAddress;
-            }
-        }
-
-    } else {
-        printf("O indice %d não foi encontrado", desiredIndex);
-    }
-    
-    free(aux);
-    free(desiredIndex);
-    return;
+    printf("\nO numero %d nao foi encontrado\n", *num);
+    free(num);
 }
 
 void printAll(IntArray* array) {
-    IntArray* aux = array;
-
-    if (aux == NULL) {
+    if (array == NULL) {
         printf("\nNenhum valor inserido ate o momento\n");
         return;
     }
 
-    printf("\nINDEX   VALUE\n");
-    while (aux != NULL)
-    {
-        printf("%d.      %d\n", aux->index, aux->value);
-        aux = aux->nextAddress;
+    IntArray* aux;
+    printf("\nVALUE\n");
+    for (aux = array; aux != NULL; aux = aux->nextAddress) {
+        printf("%d\n", aux->value);
     }
-    
 }
 
 void size(IntArray* array) {
@@ -99,46 +112,80 @@ void size(IntArray* array) {
 }
 
 int main() {
-    IntArray* array = start();
 
-    int opcao = 1;
+    int opcao = 0;
+    bool inicio = true;
 
     do {
-        
+        IntArray* array;
+        printf("\nMENU:\n1. Iniciar/Reiniciar\n2. Inserir\n3. Excluir\n4. Imprimir\n5. Buscar\n6. Numero de Elementos\n7. Fim");
         printf("\nInsira um valor: ");
         scanf("%d", &opcao);
 
         switch (opcao) {
-            case 0: 
-                printf("adeus humanos\n"); 
-                break;
-
             case 1:
-                array = insert(array);
+                array = start();
+                if (inicio) {
+                    printf("\nA lista foi iniciada.\n");
+                    inicio = false;
+                } else {
+                    printf("\nA lista foi reiniciada.\n");
+                }
                 break;
 
             case 2:
-                array = deleteByIndex(array);
+                if (inicio) {
+                    printf("\nA lista precisa ser iniciada para o programa comecar\n");
+                    break;
+                }
+
+                array = insert(array);
                 break;
 
             case 3:
-                printf("imprimir valor por indice\n");
+                if (inicio) {
+                    printf("\nA lista precisa ser iniciada para o programa comecar\n");
+                    break;
+                }
+                array = deleteByValue(array);
                 break;
 
             case 4:
+                if (inicio) {
+                    printf("\nA lista precisa ser iniciada para o programa comecar\n");
+                    break;
+                }
+
                 printAll(array);
-                
                 break;
 
             case 5:
+                if (inicio) {
+                    printf("\nA lista precisa ser iniciada para o programa comecar\n");
+                    break;
+                }
+
+                findByValue(array);
+                break;
+            
+            case 6:
+                if (inicio) {
+                    printf("\nA lista precisa ser iniciada para o programa comecar\n");
+                    break;
+                }
+
                 size(array);
+                break;
+
+            case 7: 
+                printf("\nFim do programa\n"); 
                 break;
 
             default: 
                 printf("Entrada invalida, por favor escolha uma opcao valida.\n");
         }
 
-    } while (opcao != 0);
+    } while (opcao != 7);
     
 
 
