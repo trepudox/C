@@ -4,49 +4,49 @@
 
 typedef struct {
     int value;
-    struct IntArray* nextAddress;
-} IntArray;
+    struct IntLinkedList* nextAddress;
+} IntLinkedList;
 
-IntArray* start() {
+IntLinkedList* start() {
     return NULL;
 }
 
-IntArray* insert(IntArray* array) {
+IntLinkedList* insert(IntLinkedList* list) {
     int* num = (int*) malloc(sizeof(int));
     printf("\nInsira o numero desejado: ");
     scanf("%d", num);
 
-    IntArray* newElement = (IntArray*) malloc(sizeof(IntArray));
+    IntLinkedList* newElement = (IntLinkedList*) malloc(sizeof(IntLinkedList));
 
     newElement->value = *num;
-    newElement->nextAddress = array;
+    newElement->nextAddress = list;
     
     printf("\nValor %d inserido com sucesso\n", *num);
     free(num);
     return newElement;
 }
 
-IntArray* deleteByValue(IntArray* array) {
-    if (array == NULL) {
+IntLinkedList* deleteByValue(IntLinkedList* list) {
+    if (list == NULL) {
         printf("\nA lista esta vazia, nao ha elementos para apagar.\n");
-        return array;
+        return list;
     }
     
     int* num = (int*) malloc(sizeof(int));
     printf("\nInsira o numero desejado: ");
     scanf("%d", num);
 
-    IntArray* aux = array;
+    IntLinkedList* aux = list;
 
     while (true) {
         if (aux->value == *num) {
-            array = aux->nextAddress;
+            list = aux->nextAddress;
             free(num);
             free(aux);
-            return array;
+            return list;
         }
 
-        IntArray* lastElement = aux;
+        IntLinkedList* lastElement = aux;
 
         aux = aux->nextAddress;
         if (aux == NULL) {
@@ -57,21 +57,21 @@ IntArray* deleteByValue(IntArray* array) {
             lastElement->nextAddress = aux->nextAddress;
             free(num);
             free(aux);
-            return array;
+            return list;
         }
     }
     
     printf("\nNao foi possivel encontrar o valor desejado.\n");
     free(num);
-    return array;
+    return list;
 }
 
-void findByValue(IntArray* array) {
+void findByValue(IntLinkedList* list) {
     int* num = (int*) malloc(sizeof(int));
     printf("\nInsira o numero desejado: ");
     scanf("%d", num);
 
-    IntArray* aux = array;
+    IntLinkedList* aux = list;
 
     while (aux != NULL) {
         if (aux->value == *num) {
@@ -88,22 +88,22 @@ void findByValue(IntArray* array) {
     free(num);
 }
 
-void printAll(IntArray* array) {
-    if (array == NULL) {
+void printAll(IntLinkedList* list) {
+    if (list == NULL) {
         printf("\nNenhum valor inserido ate o momento\n");
         return;
     }
 
-    IntArray* aux;
+    IntLinkedList* aux;
     printf("\nVALUE\n");
-    for (aux = array; aux != NULL; aux = aux->nextAddress) {
+    for (aux = list; aux != NULL; aux = aux->nextAddress) {
         printf("%d\n", aux->value);
     }
 }
 
-void size(IntArray* array) {
+void size(IntLinkedList* list) {
     int tamanho = 0;
-    IntArray* aux = array;
+    IntLinkedList* aux = list;
     while (aux != NULL) {
         tamanho++;
         aux = aux->nextAddress;
@@ -117,14 +117,14 @@ int main() {
     bool inicio = true;
 
     do {
-        IntArray* array;
+        IntLinkedList* list;
         printf("\nMENU:\n1. Iniciar/Reiniciar\n2. Inserir\n3. Excluir\n4. Imprimir\n5. Buscar\n6. Numero de Elementos\n7. Fim");
         printf("\nInsira um valor: ");
         scanf("%d", &opcao);
 
         switch (opcao) {
             case 1:
-                array = start();
+                list = start();
                 if (inicio) {
                     printf("\nA lista foi iniciada.\n");
                     inicio = false;
@@ -139,7 +139,7 @@ int main() {
                     break;
                 }
 
-                array = insert(array);
+                list = insert(list);
                 break;
 
             case 3:
@@ -147,7 +147,7 @@ int main() {
                     printf("\nA lista precisa ser iniciada para o programa comecar\n");
                     break;
                 }
-                array = deleteByValue(array);
+                list = deleteByValue(list);
                 break;
 
             case 4:
@@ -155,8 +155,8 @@ int main() {
                     printf("\nA lista precisa ser iniciada para o programa comecar\n");
                     break;
                 }
-
-                printAll(array);
+""
+                printAll(list);
                 break;
 
             case 5:
@@ -165,7 +165,7 @@ int main() {
                     break;
                 }
 
-                findByValue(array);
+                findByValue(list);
                 break;
             
             case 6:
@@ -174,7 +174,7 @@ int main() {
                     break;
                 }
 
-                size(array);
+                size(list);
                 break;
 
             case 7: 
