@@ -43,6 +43,7 @@ IntLinkedList* deleteByValue(IntLinkedList* list) {
             list = aux->nextAddress;
             free(num);
             free(aux);
+            printf("\nNumero excluido com sucesso\n");
             return list;
         }
 
@@ -57,6 +58,7 @@ IntLinkedList* deleteByValue(IntLinkedList* list) {
             lastElement->nextAddress = aux->nextAddress;
             free(num);
             free(aux);
+            printf("\nNumero excluido com sucesso\n");
             return list;
         }
     }
@@ -155,7 +157,7 @@ int main() {
                     printf("\nA lista precisa ser iniciada para o programa comecar\n");
                     break;
                 }
-""
+
                 printAll(list);
                 break;
 
@@ -187,7 +189,5 @@ int main() {
 
     } while (opcao != 7);
     
-
-
     return 0;
 }
